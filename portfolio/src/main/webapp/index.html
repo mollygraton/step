@@ -7,12 +7,37 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+    <div id="header">
+        <h1>Molly Graton</h1>
+        <a href="https://www.linkedin.com/in/mollygraton" target="_blank">LinkedIn</a>
+        <a href="https://www.github.com/mollygraton/" target="_blank">GitHub</a>
     </div>
+    <div id="aboutme"> 
+        <p> Hi! My name is Molly and I'm a rising sophomore at UIUC studying
+            computer science. Apart from academics, I love to skateboard and
+            play ukulele! Welcome to my portfolio!
+        </p>    
+    </div>            
+    <div id="images">
+      <img id="image" src="/images/sunset.png" 
+        style="width:300px;height:300px;">
+        <div id="clickNext"> 
+            <button onclick="nextImage()">Next</button>
+        </div>    
+    </div>
+    <div id="photography">
+        <p>Above are some photos of my dog, sunsets, and friends.</p> 
+    </div>
+    <div id="projects">
+        <h2>Projects</h2>
+        <p><b>GirlCon Chicago</b></br>A one day stem conference
+        aimed to encourage diversity in STEM.<p>
+        <p><b>GAC Website</b></br>A website I created for a 
+        local theater.<p>    
+        <p><b>NU Astrophysics Research</b></br>Detecting "noise"
+        for the upcoming gravitational wave detector, LISA.<p> 
+        <p><b>Let Me Know</b></br>A live lecture feedback platform
+        that was created during Google CSSI.<p>       
+    </div>        
   </body>
 </html>
