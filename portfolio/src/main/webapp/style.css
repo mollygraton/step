@@ -1,6 +1,10 @@
-#content , #aboutme, #header, #images {
+#content , #aboutme, #header, #images, #photography, #projects {
   margin-left: auto;
   margin-right: auto;
   width: 650px;
   text-align: center;
+}
+
+body {
+    background-color: lightsalmon;
 }
