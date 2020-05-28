@@ -1,4 +1,4 @@
-#content , #aboutme, #header, #images, #photography, #projects {
+#content, #header, #images{
   margin-left: auto;
   margin-right: auto;
   width: 750px;
@@ -7,4 +7,21 @@
 
 body {
     background-color:lightcyan;
+}
+
+#academics {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+}
+
+#projects {
+    float: left;
+    width: 30vw;
+}
+
+#aboutme {
+    float: right;
+    width: 30vw;
 }
