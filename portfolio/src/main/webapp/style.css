@@ -1,10 +1,27 @@
-#content , #aboutme, #header, #images, #photography, #projects {
+#content, #header, #images{
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: 750px;
   text-align: center;
 }
 
 body {
-    background-color: lightsalmon;
+  background-color:lightcyan;
+}
+
+#academics {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+}
+
+#projects {
+  float: left;
+  width: 30vw;
+}
+
+#aboutme {
+  float: right;
+  width: 30vw;
 }
