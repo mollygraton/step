@@ -6,22 +6,22 @@
 }
 
 body {
-    background-color:lightcyan;
+  background-color:lightcyan;
 }
 
 #academics {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80vw;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
 }
 
 #projects {
-    float: left;
-    width: 30vw;
+  float: left;
+  width: 30vw;
 }
 
 #aboutme {
-    float: right;
-    width: 30vw;
+  float: right;
+  width: 30vw;
 }
