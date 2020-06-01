@@ -27,3 +27,12 @@ function nextImage() {
   imageContainer.src = currentImage;
   
 }
+
+/**
+ * Fetches data and adds to html
+ */
+function getHelloNameData() {
+    fetch('/data').then(response => response.text()).then((hello) => {
+        document.getElementById('hello-container').innerText = hello;
+    });
+}
