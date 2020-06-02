@@ -42,17 +42,7 @@ public class DataServlet extends HttpServlet {
    * Converts a ServerStats instance into a JSON string using the Gson library.
    */
   private String convertToJson(ArrayList<String> strings) {
-    String json = "{";
-    json += "\"firstMessage\": ";
-    json += "\"" + strings.get(0) + "\"";
-    json += ", ";
-    json += "\"secondMessage\": ";
-    json += "\"" + strings.get(1) + "\"";
-    json += ", ";
-    json += "\"thirdMessage\": ";
-    json += "\"" + strings.get(2)+ "\"";
-    json += "}";
-
-    return json;
+    Gson gson = new Gson();
+    return gson.toJson(strings);
   }
 }
