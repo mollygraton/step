@@ -6,11 +6,17 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getComments()">
     <div id="header">
       <h1>Molly Graton</h1>
+      <form action="/data" method="POST">
+        <p>Leave a comment:</p>
+        <textarea name="text-input">comment</textarea>
+        <br/>
+        <input type="submit"/>
+        </br>
+      </form>
       <div id="hello-container"></div>
-      <button id="hello-btn" onclick="getHelloNameData()">Click here!</button>
         <p> Hi! My name is Molly and I'm a rising sophomore at UIUC studying
           computer science. Apart from academics, I love to skateboard and
           play ukulele! Welcome to my portfolio! Check out my 
