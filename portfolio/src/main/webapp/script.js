@@ -35,8 +35,9 @@ function getHelloNameData() {
   fetch('/data').then(response => response.json()).then((hello) => {
       const msgContainer = document.getElementById('hello-container');
 
-      for (i = 0; i < hello.length; i++) {
-        msgContainer.innerHTML += hello[i];
-      }
+      hello.forEach(function(message) {
+        msgContainer.innerHTML += message;
+      });
+      
     });
 }
