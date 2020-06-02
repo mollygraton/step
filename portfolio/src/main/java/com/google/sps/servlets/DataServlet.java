@@ -39,7 +39,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     initializeMessages();
     String json = convertToJson(messages);
-    response.setContentType("text/html;");
+    response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
@@ -47,8 +47,17 @@ public class DataServlet extends HttpServlet {
    * Converts a ServerStats instance into a JSON string using the Gson library.
    */
   private String convertToJson(ArrayList<String> strings) {
-    Gson gson = new Gson();
-    String json = gson.toJson(strings);
+    String json = "{";
+    json += "\"firstMessage\": ";
+    json += "\"" + strings.get(0) + "\"";
+    json += ", ";
+    json += "\"secondMessage\": ";
+    json += "\"" + strings.get(1) + "\"";
+    json += ", ";
+    json += "\"thirdMessage\": ";
+    json += "\"" + strings.get(2)+ "\"";
+    json += "}";
+
     return json;
   }
 }
