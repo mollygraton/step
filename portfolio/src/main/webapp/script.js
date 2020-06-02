@@ -27,3 +27,17 @@ function nextImage() {
   imageContainer.src = currentImage;
   
 }
+
+/**
+ * Fetches data and adds to html
+ */
+function getHelloNameData() {
+  fetch('/data').then(response => response.json()).then((hello) => {
+      const msgContainer = document.getElementById('hello-container');
+
+      hello.forEach(function(message) {
+        msgContainer.innerHTML += message;
+      });
+      
+    });
+}
