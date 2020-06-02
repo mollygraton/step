@@ -32,10 +32,11 @@ function nextImage() {
  * Fetches data and adds to html
  */
 function getHelloNameData() {
-    fetch('/data').then(response => response.json()).then((hello) => {
-        const msgContainer = document.getElementById('hello-container');
+  fetch('/data').then(response => response.json()).then((hello) => {
+      const msgContainer = document.getElementById('hello-container');
 
-        msgContainer.innerHTML = hello[0] + " " + 
-            hello[1] + " " + hello[2];
+      for (i = 0; i < hello.length; i++) {
+        msgContainer.innerHTML += hello[i];
+      }
     });
 }
