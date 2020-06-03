@@ -42,3 +42,10 @@ function getComments() {
       
     });
 }
+
+/**
+ * Deletes data
+ */
+function deleteComments() {
+  fetch('/delete-data', {method: 'POST', body: ""}).then(getComments());
+}
