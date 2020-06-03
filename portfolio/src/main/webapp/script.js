@@ -34,6 +34,7 @@ function nextImage() {
 function getComments() {
   fetch('/data').then(response => response.json()).then((comments) => {
       const msgContainer = document.getElementById('hello-container');
+      msgContainer.innerHTML = "";
 
       comments.forEach(function(message) {
         msgContainer.innerHTML += message + " ";
