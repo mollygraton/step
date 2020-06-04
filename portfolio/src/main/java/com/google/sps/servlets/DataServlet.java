@@ -14,6 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,15 +32,38 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> messages = new ArrayList<String>(Arrays.asList(
-      "Welcome to my page!", "Porfolio time!", "This is my portfolio"
-  ));
+  private ArrayList<String> comments = new ArrayList<String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String json = convertToJson(messages);
+    Query query = new Query("Input");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    comments.clear();
+    
+    for (Entity entity : results.asIterable()) {
+        comments.add((String) entity.getProperty("content"));
+    }
+
+    String json = convertToJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+      String comment = request.getParameter("text-input");
+
+      Entity commentEntity = new Entity("Input");
+      commentEntity.setProperty("content", comment);  
+
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
+      datastore.put(commentEntity);
+
+      response.setContentType("text/html;");
+      response.getWriter().println(comments);
+
+      response.sendRedirect("/index.html");
   }
 
   /**
