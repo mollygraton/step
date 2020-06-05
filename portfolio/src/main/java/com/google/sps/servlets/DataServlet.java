@@ -78,9 +78,6 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
     datastore.put(commentEntity);
 
-    // response.setContentType("text/html;");
-    // response.getWriter().println(comments);
-
     response.sendRedirect("/index.html");
   }
 
