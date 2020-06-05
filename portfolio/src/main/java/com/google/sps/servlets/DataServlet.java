@@ -36,11 +36,11 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private int maxNumOfComments = 3;
-  final String ENTITY_NAME = "Input";
-  final String ENTITY_TIME = "timestamp";
-  final String ENTITY_CONTENT = "content";
-  final String TEXT_INPUT_ID = "text-input";
-  final String NUM_INPUT_ID = "amount";
+  static final String ENTITY_NAME = "Input";
+  static final String ENTITY_TIME = "timestamp";
+  static final String ENTITY_CONTENT = "content";
+  static final String TEXT_INPUT_ID = "text-input";
+  static final String NUM_INPUT_ID = "amount";
 
   /**
    * Get data from Datastore and return comments as a JSON file 
