@@ -17,12 +17,15 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import java.io.IOException;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
-import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,17 +35,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> comments = new ArrayList<String>();
+  private int maxNumOfComments = 3;
+  static final String ENTITY_NAME = "Input";
+  static final String ENTITY_TIME = "timestamp";
+  static final String ENTITY_CONTENT = "content";
+  static final String TEXT_INPUT_ID = "text-input";
+  static final String NUM_INPUT_ID = "amount";
 
+  /**
+   * Get data from Datastore and return comments as a JSON file 
+   */  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Input");
+    Query query = new Query(ENTITY_NAME).addSort(ENTITY_TIME, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
-    comments.clear();
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(maxNumOfComments));
     
-    for (Entity entity : results.asIterable()) {
-        comments.add((String) entity.getProperty("content"));
+    ArrayList<String> comments = new ArrayList<String>();
+
+    for (Entity entity : results) {
+        comments.add((String) entity.getProperty(ENTITY_CONTENT));
     }
 
     String json = convertToJson(comments);
@@ -50,20 +62,23 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
+  /**
+   * Add user input from form to Datastore 
+   */  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
-      String comment = request.getParameter("text-input");
+    String comment = request.getParameter(TEXT_INPUT_ID);
+    maxNumOfComments = Integer.parseInt(request.getParameter(NUM_INPUT_ID));
+    long currentTime = System.currentTimeMillis();
 
-      Entity commentEntity = new Entity("Input");
-      commentEntity.setProperty("content", comment);  
+    Entity commentEntity = new Entity(ENTITY_NAME);
+    commentEntity.setProperty(ENTITY_CONTENT, comment);
+    commentEntity.setProperty(ENTITY_TIME, currentTime);  
 
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
-      datastore.put(commentEntity);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
+    datastore.put(commentEntity);
 
-      response.setContentType("text/html;");
-      response.getWriter().println(comments);
-
-      response.sendRedirect("/index.html");
+    response.sendRedirect("/index.html");
   }
 
   /**
