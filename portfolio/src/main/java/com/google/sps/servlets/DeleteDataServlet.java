@@ -32,9 +32,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
+  final String ENTITY_NAME = "Input";  
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
-    Query query = new Query("Input");
+    Query query = new Query(ENTITY_NAME);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 

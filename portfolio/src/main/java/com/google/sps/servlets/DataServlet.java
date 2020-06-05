@@ -35,21 +35,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private int numComments = 3;
+  private int maxNumOfComments = 3;
+  final String ENTITY_NAME = "Input";
+  final String ENTITY_TIME = "timestamp";
+  final String ENTITY_CONTENT = "content";
+  final String TEXT_INPUT_ID = "text-input";
+  final String NUM_INPUT_ID = "amount";
 
   /**
    * Get data from Datastore and return comments as a JSON file 
    */  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Input").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query(ENTITY_NAME).addSort(ENTITY_TIME, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numComments));
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(maxNumOfComments));
     
     ArrayList<String> comments = new ArrayList<String>();
 
     for (Entity entity : results) {
-        comments.add((String) entity.getProperty("content"));
+        comments.add((String) entity.getProperty(ENTITY_CONTENT));
     }
 
     String json = convertToJson(comments);
@@ -62,19 +67,19 @@ public class DataServlet extends HttpServlet {
    */  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
-    String comment = request.getParameter("text-input");
-    numComments = Integer.parseInt(request.getParameter("amount"));
+    String comment = request.getParameter(TEXT_INPUT_ID);
+    maxNumOfComments = Integer.parseInt(request.getParameter(NUM_INPUT_ID));
     long currentTime = System.currentTimeMillis();
 
-    Entity commentEntity = new Entity("Input");
-    commentEntity.setProperty("content", comment);
-    commentEntity.setProperty("timestamp", currentTime);  
+    Entity commentEntity = new Entity(ENTITY_NAME);
+    commentEntity.setProperty(ENTITY_CONTENT, comment);
+    commentEntity.setProperty(ENTITY_TIME, currentTime);  
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
     datastore.put(commentEntity);
 
-    response.setContentType("text/html;");
-    response.getWriter().println(comments);
+    // response.setContentType("text/html;");
+    // response.getWriter().println(comments);
 
     response.sendRedirect("/index.html");
   }
