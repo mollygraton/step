@@ -13,6 +13,14 @@
 // limitations under the License.
 
 /**
+ * Calls initial functions on load   
+ */
+function initialize() {
+  getComments();
+  showMap();  
+}
+
+/**
  * Advances image gallery to next image.
  */
 function nextImage() {
@@ -26,6 +34,15 @@ function nextImage() {
   const imageContainer = document.getElementById('image');
   imageContainer.src = currentImage;
   
+}
+
+/**
+ * Creates and displays Google map
+ */
+function showMap() {
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
 }
 
 /**
