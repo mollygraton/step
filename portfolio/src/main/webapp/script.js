@@ -12,6 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const DEFAULT_CENTER = {lat: 42.2831, lng: -87.9531};
+const DEFAULT_ZOOM = 16;
+
+/**
+ * Calls initial functions on load   
+ */
+function initialize() {
+  getComments();
+  showMap();  
+}
+
 /**
  * Advances image gallery to next image.
  */
@@ -26,6 +37,15 @@ function nextImage() {
   const imageContainer = document.getElementById('image');
   imageContainer.src = currentImage;
   
+}
+
+/**
+ * Creates and displays Google map
+ */
+function showMap() {
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM});
 }
 
 /**

@@ -9,6 +9,13 @@ body {
   background-color:lightcyan;
 }
 
+#map {
+  text-align: center;
+  width: 80vw;
+  height: 40vh;
+  margin-left: 10vw;
+}
+
 #academics {
   text-align: center;
   margin-left: auto;

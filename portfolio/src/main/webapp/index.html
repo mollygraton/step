@@ -5,8 +5,9 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Y0Zhv05QvgF-AWJPGttrU4kU-V1tlJI"></script>
   </head>
-  <body onload="getComments()">
+  <body onload="initialize();">
     <div id="header">
       <h1>Molly Graton</h1>
       <form action="/data" method="POST">
@@ -35,6 +36,7 @@
           <button onclick="nextImage()">Next</button>
         </div>    
     </div>
+    <div id="map"></div>
     <div id="academics">
       <div id="projects">
         <h1>Projects</h1>
