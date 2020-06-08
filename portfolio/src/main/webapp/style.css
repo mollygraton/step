@@ -8,6 +8,11 @@
 body {
   background-color:lightcyan;
 }
+#hometown {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 
 #map {
   text-align: center;
