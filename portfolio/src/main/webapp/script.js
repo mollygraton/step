@@ -80,7 +80,7 @@ function getComments() {
       msgContainer.innerHTML = "";
 
       comments.forEach(function(message) {
-        msgContainer.innerHTML += message + " ";
+        msgContainer.innerHTML += "</br>" + message;
       });
       
     });
