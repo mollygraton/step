@@ -21,6 +21,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +39,11 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private int maxNumOfComments = 3;
+  private float sentimentScore = 0;
   static final String ENTITY_NAME = "Input";
   static final String ENTITY_TIME = "timestamp";
   static final String ENTITY_CONTENT = "content";
+  static final String ENTITY_SCORE = "score";
   static final String TEXT_INPUT_ID = "text-input";
   static final String NUM_INPUT_ID = "amount";
 
@@ -60,6 +65,7 @@ public class DataServlet extends HttpServlet {
     String json = convertToJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+    response.getWriter().println("<p>Sentiment analysis score: " + sentimentScore + "</p>");
   }
 
   /**
@@ -71,9 +77,20 @@ public class DataServlet extends HttpServlet {
     maxNumOfComments = Integer.parseInt(request.getParameter(NUM_INPUT_ID));
     long currentTime = System.currentTimeMillis();
 
+    Document doc =
+        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+
     Entity commentEntity = new Entity(ENTITY_NAME);
     commentEntity.setProperty(ENTITY_CONTENT, comment);
-    commentEntity.setProperty(ENTITY_TIME, currentTime);  
+    commentEntity.setProperty(ENTITY_TIME, currentTime);
+    commentEntity.setProperty(ENTITY_SCORE, score);
+
+    System.out.println(score);  
+    sentimentScore = score;
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();  
     datastore.put(commentEntity);
