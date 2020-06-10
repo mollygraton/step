@@ -17,6 +17,11 @@ const DEFAULT_ZOOM = 16;
 const FOOD_LOCATION = {lat: 42.2861222, lng:-87.9547825};
 const HS_LOCATION = {lat: 42.2846165, lng: -87.9668647};
 const LIBERTY_LOCATION = {lat: 42.2897481, lng: -87.9544839};
+const LOCATION_MAP = new Map([
+    [FOOD_LOCATION, "My favorite restaurant."],
+    [HS_LOCATION, "My old high school."],
+    [LIBERTY_LOCATION, "The old theater I used to work at!"]
+]);
 
 
 /**
@@ -51,9 +56,9 @@ function showMap() {
       document.getElementById('map'),
       {center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM});
   
-  addMarkerInfo(map, LIBERTY_LOCATION, "The old theater I used to work at!"); 
-  addMarkerInfo(map, HS_LOCATION, "My old high school.");
-  addMarkerInfo(map, FOOD_LOCATION, "My favorite restaurant.");     
+  for (let [location,info] of LOCATION_MAP) {
+    addMarkerInfo(map, location, info);
+  };     
 }
 
 /**
