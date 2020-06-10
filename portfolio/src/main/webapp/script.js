@@ -14,6 +14,15 @@
 
 const DEFAULT_CENTER = {lat: 42.2831, lng: -87.9531};
 const DEFAULT_ZOOM = 16;
+const FOOD_LOCATION = {lat: 42.2861222, lng:-87.9547825};
+const HS_LOCATION = {lat: 42.2846165, lng: -87.9668647};
+const LIBERTY_LOCATION = {lat: 42.2897481, lng: -87.9544839};
+const LOCATION_MAP = new Map([
+    [FOOD_LOCATION, "My favorite restaurant."],
+    [HS_LOCATION, "My old high school."],
+    [LIBERTY_LOCATION, "The old theater I used to work at!"]
+]);
+
 
 /**
  * Calls initial functions on load   
@@ -46,6 +55,25 @@ function showMap() {
   const map = new google.maps.Map(
       document.getElementById('map'),
       {center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM});
+  
+  for (let [location,info] of LOCATION_MAP) {
+    addMarkerInfo(map, location, info);
+  };     
+}
+
+/**
+ * Add marker to the map along with info window on click
+ */
+function addMarkerInfo(currentMap, coordinate, info) {
+  var marker = new google.maps.Marker({position: coordinate, map: currentMap});
+
+  var infowindow = new google.maps.InfoWindow({
+    content: info
+  });
+
+  marker.addListener('click', function() {
+    infowindow.open(currentMap, marker);
+  }); 
 }
 
 /**
@@ -57,7 +85,7 @@ function getComments() {
       msgContainer.innerHTML = "";
 
       comments.forEach(function(message) {
-        msgContainer.innerHTML += message + " ";
+        msgContainer.innerHTML += "</br>" + message;
       });
       
     });
