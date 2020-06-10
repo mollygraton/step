@@ -18,12 +18,10 @@ package com.google.sps.data;
 public final class Comment {
 
   private final String content;  
-  private final long sentimentScore;
-  private final long timestamp;
+  private final double sentimentScore;
 
-  public Comment(String content, long timestamp, long score) {
+  public Comment(String content, double score) {
     this.content = content;
-    this.timestamp = timestamp;
     this.sentimentScore = score;
   }
 }
