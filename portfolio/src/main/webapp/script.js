@@ -84,10 +84,10 @@ function getComments() {
       const msgContainer = document.getElementById('hello-container');
       msgContainer.innerHTML = "";
 
-      comments.forEach(function(message) {
-        msgContainer.innerHTML += "</br>" + message;
+      comments.forEach(function(comment) {
+        msgContainer.innerHTML += "</br>" + comment.content + " Sentiment Score: " + comment.sentimentScore;
       });
-      
+
     });
 }
 
