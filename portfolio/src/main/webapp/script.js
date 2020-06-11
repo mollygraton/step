@@ -85,7 +85,14 @@ function getComments() {
       msgContainer.innerHTML = "";
 
       comments.forEach(function(comment) {
-        msgContainer.innerHTML += "</br>" + comment.content + " Sentiment Score: " + comment.sentimentScore;
+        msgContainer.innerHTML += "</br>" + comment.content + " ";
+        if (comment.sentimentScore > 0) {
+          msgContainer.innerHTML += "😄";    
+        } else if (comment.sentimentScore < 0) {
+            msgContainer.innerHTML += "😠";
+        } else {
+            msgContainer.innerHTML += "😐";
+        }
       });
 
     });
