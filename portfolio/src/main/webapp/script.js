@@ -89,9 +89,9 @@ function getComments() {
         if (comment.sentimentScore > 0) {
           msgContainer.innerHTML += "😄";    
         } else if (comment.sentimentScore < 0) {
-            msgContainer.innerHTML += "😠";
+          msgContainer.innerHTML += "😠";
         } else {
-            msgContainer.innerHTML += "😐";
+          msgContainer.innerHTML += "😐";
         }
       });
 
