@@ -44,6 +44,6 @@ public class DeleteDataServlet extends HttpServlet {
         datastore.delete(entity.getKey());
     }
 
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/comments.html");
   }
 }
