@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
-  final String ENTITY_NAME = "Input";  
+  final String ENTITY_NAME = "Comment";  
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
@@ -43,5 +43,7 @@ public class DeleteDataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
         datastore.delete(entity.getKey());
     }
+
+    response.sendRedirect("/index.html");
   }
 }

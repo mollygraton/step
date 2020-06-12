@@ -41,7 +41,6 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private int maxNumOfComments = 3;
-  private float sentimentScore = 0;
   static final String ENTITY_NAME = "Comment";
   static final String ENTITY_TIME = "timestamp";
   static final String ENTITY_CONTENT = "content";
