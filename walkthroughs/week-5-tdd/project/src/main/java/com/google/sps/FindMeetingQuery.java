@@ -14,10 +14,52 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    ArrayList<TimeRange> options = new ArrayList<TimeRange>();
+    List<TimeRange> requiredEvents = new ArrayList<TimeRange>();
+
+    // Ignore events that don't have any required attendees
+    for (Event event : events) {
+        for (String person : request.getAttendees()) {
+            if (event.getAttendees().contains(person)) {
+                requiredEvents.add(event.getWhen());
+                break;
+            }
+        }
+    }
+
+    Collections.sort(requiredEvents, TimeRange.ORDER_BY_START);
+
+    int earliestAvailable = TimeRange.START_OF_DAY;
+    
+    for(TimeRange eventTime : requiredEvents) {
+        if (eventTime.end() >= earliestAvailable) {
+        
+            TimeRange possibleRange = new TimeRange(earliestAvailable, eventTime.start()-earliestAvailable);
+
+            if (possibleRange.duration() >= request.getDuration()){ 
+                options.add(possibleRange);
+            }
+
+            earliestAvailable = eventTime.end();
+
+        } else if (eventTime.end() > earliestAvailable) {
+                earliestAvailable = eventTime.end();
+        }
+    }
+
+    // Add time after events, if it's able to fit a meeting
+    if (TimeRange.END_OF_DAY - earliestAvailable >= request.getDuration()) {
+        options.add(new TimeRange(earliestAvailable, TimeRange.END_OF_DAY - earliestAvailable + 1));
+    }    
+
+    return options;
   }
 }
