@@ -40,7 +40,7 @@ public final class FindMeetingQuery {
     int earliestAvailable = TimeRange.START_OF_DAY;
     
     for(TimeRange eventTime : requiredEvents) {
-        if (eventTime.end() >= earliestAvailable) {
+        if (eventTime.start() >= earliestAvailable) {
         
             TimeRange possibleRange = new TimeRange(earliestAvailable, eventTime.start()-earliestAvailable);
 
@@ -51,7 +51,7 @@ public final class FindMeetingQuery {
             earliestAvailable = eventTime.end();
 
         } else if (eventTime.end() > earliestAvailable) {
-                earliestAvailable = eventTime.end();
+            earliestAvailable = eventTime.end();
         }
     }
 
