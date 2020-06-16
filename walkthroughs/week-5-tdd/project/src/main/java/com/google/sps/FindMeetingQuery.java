@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 public final class FindMeetingQuery {
@@ -55,9 +54,10 @@ public final class FindMeetingQuery {
     for(TimeRange eventTime : allMeetings) {
         if (eventTime.start() >= earliestAvailable) {
         
-            TimeRange possibleRange = TimeRange.fromStartDuration(earliestAvailable, eventTime.start() - earliestAvailable);
+            TimeRange possibleRange = 
+                TimeRange.fromStartEnd(earliestAvailable, eventTime.start());
 
-            if (possibleRange.duration() >= request.getDuration()){ 
+            if (possibleRange.duration() >= request.getDuration()) { 
                 options.add(possibleRange);
             }
 
@@ -77,9 +77,10 @@ public final class FindMeetingQuery {
   }
 
   private List<TimeRange> findAttendeeEvents(Collection<Event> events, Collection<String> attendeeList) {
-      List<TimeRange> meetingTimes = new ArrayList<TimeRange>();
-
-      for (Event event : events) {
+    List<TimeRange> meetingTimes = new ArrayList<TimeRange>();
+    
+    //Keep the event as long as at least one person in the attendeeList is in it.
+    for (Event event : events) {
         for (String person : attendeeList) {
             if (event.getAttendees().contains(person)) {
                 meetingTimes.add(event.getWhen());
