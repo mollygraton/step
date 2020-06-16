@@ -14,6 +14,7 @@
 
 package com.google.sps;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,27 +23,39 @@ import java.util.List;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    ArrayList<TimeRange> options = new ArrayList<TimeRange>();
-    List<TimeRange> requiredEvents = new ArrayList<TimeRange>();
+    List<TimeRange> requiredEvents = findAttendeeEvents(events, request.getAttendees());
+    List<TimeRange> optionalEvents = findAttendeeEvents(events, request.getOptionalAttendees());
 
-    // Ignore events that don't have any required attendees
-    for (Event event : events) {
-        for (String person : request.getAttendees()) {
-            if (event.getAttendees().contains(person)) {
-                requiredEvents.add(event.getWhen());
-                break;
-            }
-        }
+    List<TimeRange> allAttendees = findOpenTimes(requiredEvents, optionalEvents, request);
+    List<TimeRange> onlyOptional = findOpenTimes(Arrays.asList(), optionalEvents, request);
+    List<TimeRange> onlyMandatory = findOpenTimes(requiredEvents, Arrays.asList(), request);
+
+    if (allAttendees.size() > 0) {
+        return allAttendees;
+    } else if (requiredEvents.size() > 0) {
+        return onlyMandatory;
+    } else {
+        return onlyOptional;
+    }
+  }
+
+  private List<TimeRange> findOpenTimes(List<TimeRange> mandatoryAttendeeMeetings, 
+                            List<TimeRange> optionalAttendeeMeetings, MeetingRequest request) {
+
+    ArrayList<TimeRange> options = new ArrayList<TimeRange>();
+    int earliestAvailable = TimeRange.START_OF_DAY;
+
+    List<TimeRange> allMeetings = new ArrayList<TimeRange>(mandatoryAttendeeMeetings);
+    if (optionalAttendeeMeetings != null) {
+        allMeetings.addAll(optionalAttendeeMeetings);
     }
 
-    Collections.sort(requiredEvents, TimeRange.ORDER_BY_START);
-
-    int earliestAvailable = TimeRange.START_OF_DAY;
+    Collections.sort(allMeetings, TimeRange.ORDER_BY_START);
     
-    for(TimeRange eventTime : requiredEvents) {
+    for(TimeRange eventTime : allMeetings) {
         if (eventTime.start() >= earliestAvailable) {
         
-            TimeRange possibleRange = new TimeRange(earliestAvailable, eventTime.start()-earliestAvailable);
+            TimeRange possibleRange = TimeRange.fromStartDuration(earliestAvailable, eventTime.start() - earliestAvailable);
 
             if (possibleRange.duration() >= request.getDuration()){ 
                 options.add(possibleRange);
@@ -57,9 +70,24 @@ public final class FindMeetingQuery {
 
     // Add time after events, if it's able to fit a meeting
     if (TimeRange.END_OF_DAY - earliestAvailable >= request.getDuration()) {
-        options.add(new TimeRange(earliestAvailable, TimeRange.END_OF_DAY - earliestAvailable + 1));
+        options.add(TimeRange.fromStartEnd(earliestAvailable, TimeRange.END_OF_DAY, true));
     }    
 
     return options;
+  }
+
+  private List<TimeRange> findAttendeeEvents(Collection<Event> events, Collection<String> attendeeList) {
+      List<TimeRange> meetingTimes = new ArrayList<TimeRange>();
+
+      for (Event event : events) {
+        for (String person : attendeeList) {
+            if (event.getAttendees().contains(person)) {
+                meetingTimes.add(event.getWhen());
+                break;
+            }
+        }
+    }
+
+    return meetingTimes;
   }
 }
