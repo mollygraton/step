@@ -49,18 +49,18 @@ public final class FindMeetingQuery {
 
     Collections.sort(allMeetings, TimeRange.ORDER_BY_START);
     
-    for(TimeRange eventTime : allMeetings) {
+    for (TimeRange eventTime : allMeetings) {
       if (eventTime.start() >= earliestAvailable) {
-          TimeRange possibleRange = 
-              TimeRange.fromStartEnd(earliestAvailable, eventTime.start(), false);
+        TimeRange possibleRange = 
+            TimeRange.fromStartEnd(earliestAvailable, eventTime.start(), false);
 
-          if (possibleRange.duration() >= request.getDuration()) { 
-            options.add(possibleRange);
-          }
+        if (possibleRange.duration() >= request.getDuration()) { 
+          options.add(possibleRange);
+        }
 
-          earliestAvailable = eventTime.end();
-      } else if (eventTime.end() > earliestAvailable) {
         earliestAvailable = eventTime.end();
+      } else if (eventTime.end() > earliestAvailable) {
+          earliestAvailable = eventTime.end();
       }
     }
 
@@ -77,12 +77,12 @@ public final class FindMeetingQuery {
     
     // Keep the event as long as at least one person in the attendeeList is in it.
     for (Event event : events) {
-        for (String person : attendeeList) {
-            if (event.getAttendees().contains(person)) {
-                meetingTimes.add(event.getWhen());
-                break;
-            }
+      for (String person : attendeeList) {
+        if (event.getAttendees().contains(person)) {
+          meetingTimes.add(event.getWhen());
+          break;
         }
+      }
     }
 
     return meetingTimes;
