@@ -26,16 +26,19 @@
         <a class="nav-link" href="comments.html">Comments</a>
       </li>
     </ul>    
-    <div id="header">  
-      <h1>Molly Graton</h1>
-        <img src="/images/molly.gif" id="android" class="rounded mx-auto d-block">
-        <p> Hi! My name is Molly and I'm a rising sophomore at UIUC studying
-          computer science. Apart from academics, I love to skateboard and
-          play ukulele! Welcome to my portfolio! Check out my 
-          <a href="https://www.linkedin.com/in/mollygraton" target="_blank">LinkedIn</a>
-          or <a href="https://www.github.com/mollygraton/" target="_blank">GitHub</a>
-          for more info.
-        </p>    
+    <div id="comment">
+      <form action="/data" method="POST">
+        <p>Leave a comment:</p>
+        <textarea name="text-input">comment</textarea>
+        <br/>
+        <label for="amount">Number of Comments(1-10):</label>
+        <input type="number" id="amount" name="amount" min="1" max="10" value="3">
+        </br>
+        <input type="submit" class="btn btn-light"/>
+        </br>
+      </form>
+      <button id="deleteBtn" class="btn btn-light" onclick="deleteComments()">Delete All</button>
+      <div id="hello-container"></div>
     </div>                  
   </body>
 </html>

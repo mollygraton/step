@@ -1,17 +1,25 @@
-#content, #header, #images{
-  margin-left: auto;
-  margin-right: auto;
+body {
+  background-color:rgb(215, 222, 247) !important;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.nav {
+  background-color: azure !important;
+}
+
+#clickNext {
+  padding-top: 4vh;
+}
+
+#content, #header, #images, #comment {
+  margin: auto;  
   width: 750px;
+  padding-top: 5vh;
   text-align: center;
 }
 
-body {
-  background-color:rgb(179, 195, 216);
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-#hometown, #comment {
-  margin-left: auto;
-  margin-right: auto;
+#hometown {
+  margin: auto;
   text-align: center;
 }
 
@@ -19,13 +27,12 @@ body {
   text-align: center;
   width: 80vw;
   height: 40vh;
-  margin-left: 10vw;
+  margin: auto;
 }
 
 #academics {
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 5% auto auto auto;
   width: 80vw;
 }
 
